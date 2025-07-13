@@ -7,6 +7,9 @@
 	define('dbpass', '');
 	define('dbname', 'newrent');
 
+	// ✅ Define API Key
+	define('API_SECRET_KEY', '#f<R%Pvf)[W=#`m');
+
 	// Connecting database
 	try {
 		$connect = new PDO("mysql:host=".dbhost."; dbname=".dbname, dbuser, dbpass);
@@ -15,5 +18,4 @@
 	catch(PDOException $e) {
 		echo $e->getMessage();
 	}
-
 ?>
