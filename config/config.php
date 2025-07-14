@@ -1,16 +1,14 @@
 <?php
 	session_start();
 
+	require_once 'auth/secure.php'; // ✅ Include the key securely from another file
+
 	// Define database
 	define('dbhost', 'localhost');
 	define('dbuser', 'root');
 	define('dbpass', '');
 	define('dbname', 'newrent');
 
-	// ✅ Define API Key
-	define('API_SECRET_KEY', '#f<R%Pvf)[W=#`m');
-
-	// Connecting database
 	try {
 		$connect = new PDO("mysql:host=".dbhost."; dbname=".dbname, dbuser, dbpass);
 		$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
