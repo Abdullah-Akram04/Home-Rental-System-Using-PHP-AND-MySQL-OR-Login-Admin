@@ -1,19 +1,22 @@
 <?php
-	session_start();
+session_start();
 
-	require_once 'auth/secure.php'; // ✅ Include the key securely from another file
+// CSRF Token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
-	// Define database
-	define('dbhost', 'localhost');
-	define('dbuser', 'root');
-	define('dbpass', '');
-	define('dbname', 'newrent');
+// Secure DB connection using PDO
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'newrent');
 
-	try {
-		$connect = new PDO("mysql:host=".dbhost."; dbname=".dbname, dbuser, dbpass);
-		$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	}
-	catch(PDOException $e) {
-		echo $e->getMessage();
-	}
+try {
+    $connect = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $connect->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // safer prepared statements
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 ?>
